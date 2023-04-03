@@ -1,9 +1,9 @@
-# from flask import Flask
-# app = Flask('image-recognition-model')
+from flask import Flask
+app = Flask('image-recognition-model')
 
-# @app.route('/')
+@app.route('/')
 
-# def get_data():
-#     return "hello world"
+def get_data():
+    return "hello world"
 
 print('hello world')

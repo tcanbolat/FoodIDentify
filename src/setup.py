@@ -25,6 +25,5 @@ def setup_training_data(txtfile, source, destination, food_list=['cheesecake', '
         for n in food_types[food]:
             copy(os.path.join(source, food, n), os.path.join(destination, food, n))
 
-
 setup_training_data('meta/train.txt', 'meta/images', 'meta/training-data/train', txt_to_list('meta/classes.txt'))
 setup_training_data('meta/test.txt', 'meta/images', 'meta/training-data/test', txt_to_list('meta/classes.txt'))

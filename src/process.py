@@ -36,11 +36,11 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accur
 
 earlystopping = EarlyStopping(min_delta=0.001, patience=5, restore_best_weights=True)
 
-checkpoint = ModelCheckpoint(filepath='food_model_small.hdf5', verbose=1, save_best_only=True, save_weights_only=True)
+checkpoint = ModelCheckpoint(filepath='food_model.hdf5', verbose=1, save_best_only=True, save_weights_only=True)
 
-history = model.fit(train_gen, validation_data=test_gen, epochs=20, verbose=1, callbacks=[checkpoint, earlystopping])
+history = model.fit(train_gen, validation_data=test_gen, epochs=10, verbose=1, callbacks=[checkpoint, earlystopping])
 
-model.save('food_model_small.h5')
+model.save('food_model.h5')
 
 history_df = pd.DataFrame(history.history)
 history_df.loc[:,['loss', 'val_loss']].plot()

@@ -1,4 +1,3 @@
-src/meta/images
-src/meta/test.txt
-src/meta/train.txt
-src/meta/classes.txt
+src/meta/
+src/modle
+venv

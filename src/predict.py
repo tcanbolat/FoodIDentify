@@ -3,6 +3,12 @@ from keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
 
+def txt_to_list(filename):
+    with open(filename, 'r') as f:
+        lines = f.readlines()
+        lst = [line.strip() for line in lines]
+    return lst
+
 def predict_class(model, images, show = True):
   for img in images:
     img = tf.keras.preprocessing.image.load_img(img, target_size=(235, 235))
@@ -13,7 +19,7 @@ def predict_class(model, images, show = True):
     pred = model.predict(img)
     index = np.argmax(pred)
 
-    food_list = ['cheesecake', 'baklava', 'ramen']
+    food_list = txt_to_list('meta/classes.txt')
     food_list.sort()
     pred_value = food_list[index]
 
@@ -24,8 +30,8 @@ def predict_class(model, images, show = True):
         plt.show()
 
 images = []
-images.append('BD13D8BA-9BFA-4BFD-AF09-17DC38CBFECA.jpeg')
+images.append('BD13D8BA-9BFA-4BFD-AF09-17DC38CBFECA.jpg')
 
-food_model = load_model("model/food_model.h5")
+food_model = load_model("model/food_model_small_96_percent.h5")
 
 predict_class(food_model, images, True)

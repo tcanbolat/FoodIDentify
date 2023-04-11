@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Upload</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+    integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+
+  <div id="wrapper">
+    <div class="container text-center" id="header">
+      <div class="row align-items-center">
+        <div class="col m-b-4">
+          <h1>Food Recognition Model</h1>
+        </div>
+      </div>
+    </div>
+    <div class="container" id="food-list-container">
+      <div class="row">
+        <div class="col-12">
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item"><h5>List of foods the model has been trained on</h5></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        {% for i in range(0, food_list|length, 10) %}
+          <div class="col-12">
+            <ul class="list-group list-group-horizontal">
+              {% for food in food_list[i:i+10] %}
+                <li class="list-group-item">
+                  <a href="https://www.google.com/search?q={{ food }}&tbm=isch" target="_blank" rel="noopener noreferrer">{{ food }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container text-center" id="upload-container">
+      <div class="row align-items-center">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <div class="card mx-auto border-0">
+            <div id="card-body">
+              <div id="upload-image-col" class="d-flex justify-content-center align-items-center">
+                <div class="row">
+                  <div class="col-12 p-b-5">
+                    <i v-show="!uploadedImageFile" class="fa fa-solid fa-cloud-arrow-up fa-7x" @click="onClickUploadIcon"></i>
+                    <input ref="uploadInput" type="file" id="image-upload" accept="image/jpeg,image/jpg,image/png" class="d-none" v-on:change="handleImageUpload">
+                  </div>
+                  <div class="col-12" id="upload-btn-container">
+                    <button v-show="uploadedImageFile && !PredictedResult" @click="predictImage" type="button" class="btn btn-outline-light btn-lg" :disabled="loading">
+                      <b>PREDICT IMAGE</b>
+                    </button>
+                    <i v-show="PredictedResult" @click="reset" class="fa fa-solid fa-arrows-rotate fa-7x"></i>
+                  </div>
+                </div>
+              </div>
+              <div id="upload-results-col" class="d-flex justify-content-center align-items-center">
+                <div class="row">
+                  <div class="col-12" id="result-container">
+                    <h3>${ PredictedResult }</h3>
+                    <h3 v-if="loading">PREDICTING...</h3>
+                  </div>
+                  <div class="col-12">
+                    <div id="img-preview">
+                        <img v-if="previewImgUrl" v-bind:src="previewImgUrl" class="preview-img">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-1"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script src="../static/index.js"></script>
+
+</html>

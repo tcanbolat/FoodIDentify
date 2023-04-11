@@ -1,5 +1,5 @@
 from collections import defaultdict
-from shutil import copy, copytree, rmtree
+from shutil import copy
 import os
 
 def txt_to_list(filename):
@@ -8,7 +8,7 @@ def txt_to_list(filename):
         lst = [line.strip() for line in lines]
     return lst
 
-def setup_training_data(txtfile, source, destination, food_list=['cheesecake', 'baklava', 'ramen']):
+def setup_training_data(txtfile, source, destination, food_list=['cheesecake', 'baklava', 'ramen', 'dumplings', "french_fries"]):
     # food list defaults to cheesecake, baklava, and ramen if not indicated
     food_types = defaultdict(list)
     with open(txtfile, "r") as file:

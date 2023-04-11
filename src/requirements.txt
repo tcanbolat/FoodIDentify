@@ -4,3 +4,6 @@ pandas
 pillow
 matplotlib
 numpy
+scikit-learn
+scikit-image
+h5py

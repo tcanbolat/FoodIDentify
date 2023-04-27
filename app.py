@@ -16,7 +16,7 @@ def hello():
     for i in range(len(food_list)):
         food_list[i] = food_list[i].replace("_", " ")
 
-    return render_template('index.html', food_list=food_list)
+    return render_template('main.html', food_list=food_list)
 
 
 @app.route('/predict', methods=['POST'])

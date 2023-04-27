@@ -6,10 +6,21 @@ const app = createApp({
       uploadedImageFile: null,
       previewImgUrl: '',
       PredictedResult: {},
-      loading: false
+      loading: false,
+      error: false,
+      step: {
+        welcome: true,
+        chooseFood: false,
+        uploadFood: false,
+        predictFood: false
+      }
     }
   },
   methods: {
+    updateStep(prevStep, nextStep) {
+      this.step[prevStep] = false
+      this.step[nextStep] = true
+    },
     onClickUploadIcon() {
       this.$refs.uploadInput.click()
     },
@@ -22,9 +33,12 @@ const app = createApp({
       reader.onload = () => {
         this.previewImgUrl = reader.result
       }
+      this.step.uploadFood = false
+      this.step.predictFood = true
     },
     predictImage() {
       this.loading = true
+      this.error = false
 
       const data = new FormData()
       data.append('file', this.uploadedImageFile)
@@ -43,6 +57,7 @@ const app = createApp({
       })
       .catch(err => {
         self.loading = false
+        self.error = true
         console.log(err)
       })
     },
@@ -51,6 +66,8 @@ const app = createApp({
       this.previewImgUrl = ''
       this.PredictedResult = ''
       this.loading = false
+      this.step.predictFood = false
+      this.step.welcome = true
     }
   },
 })

@@ -1,0 +1,10 @@
+{
+  "name": "FoodIDentify",
+  "description": "tensorflow model trained to identify 101 foods",
+  "keywords": [
+    "flask",
+    "python",
+    "sample"
+  ],
+  "repository": "https://github.com/tcanbolat/image-recogniton-model"
+}

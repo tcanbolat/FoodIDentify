@@ -1,4 +1,6 @@
-meta/
+meta/images
+meta/training-data
+meta/.DS_Store
 venv
 *~
 *.pyc

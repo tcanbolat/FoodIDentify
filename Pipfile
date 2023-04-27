@@ -14,6 +14,14 @@ name = "pypi"
 flask = "*"
 "psycopg2" = "*"
 gunicorn = "*"
+tensorflow = 2.12.0
+pandas = "*"
+pillow = "*"
+matplotlib = "*"
+numpy = "*"
+scikit-learn = "*"
+scikit-image = "*"
+h5py = "*"
 
 
 [requires]

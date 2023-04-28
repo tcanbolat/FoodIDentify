@@ -60,8 +60,8 @@ checkpoint = ModelCheckpoint(
   save_weights_only=True
 )
 
-BATCH_SIZE = 64
-EPOCHS = 1
+BATCH_SIZE = 128
+EPOCHS = 15
 
 history = model.fit(
   train_gen,

@@ -4,7 +4,7 @@ Food Image Classification Model \
 Built with TensorFlow \
 Model has been trained on a data set of 101 different food types
 
-Data set source: https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/
+Data set source: https://www.kaggle.com/datasets/kmader/food41?resource=download-directory
 
 ## Table of Contents
 
@@ -31,7 +31,6 @@ Data set source: https://data.vision.ee.ethz.ch/cvl/datasets_extra/food-101/
 
 ![screenshot](./static/model-architecture.png)
 
-<br>
 <br>
 
 ## Training Graph

@@ -5,3 +5,4 @@ venv
 *.pyc
 test
 db/votes.db
+test.py

@@ -1,6 +1,6 @@
 from common.common import food_list
+from keras.backend import clear_session
 from keras.utils import load_img, img_to_array
-
 import numpy as np
 
 def predict_class(model, image):
@@ -17,6 +17,8 @@ def predict_class(model, image):
     pred_value = food_list[index]
 
     percentage = "{:.0%}".format(index_value)
+
+    clear_session()
 
     return {"prediction": pred_value, "confidence": percentage}
 

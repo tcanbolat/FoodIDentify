@@ -2,6 +2,7 @@ from common.common import food_list, get_latest_file
 from db.create_db import setup_db
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
+from keras.backend import clear_session
 from keras.models import load_model
 import os
 from predict import predict_class
@@ -86,6 +87,8 @@ def submit_vote():
 
 if not os.path.exists('db/votes.db'):
     setup_db()
+
+clear_session()
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))

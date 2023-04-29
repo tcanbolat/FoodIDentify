@@ -7,7 +7,6 @@ from keras.models import load_model  # REMOVE IMPORT IF USING tflite_runtime
 import os
 from predict import predict_class
 import sqlite3
-# import tflite_runtime.interpreter as tflite  # ADD IMPORT IF USING tflite_runtime
 
 
 
@@ -16,15 +15,20 @@ app.config.update(
     TEMPLATES_AUTO_RELOAD=True
 )
 
-file = get_latest_file('model', 'model')
-food_model = load_model(file)
+file = get_latest_file('model', 'model')  # REMOVE STATMENT IF USING tflite_runtime
+food_model = load_model(file)  # REMOVE STATMENT IF USING tflite_runtime
 
+
+########################################################################
 ### LOAD A TFLITE MODEL TO BE USED WITH tflite_runtime package
 ### Pip install tflite_runtime
 ### DOES_NOT_WORK WITH PYTHON 3.11 OR 3.10 - USE PYTHON 3.9 OR 3.6
 
+# import tflite_runtime.interpreter as tflite
 # model_path = 'model/food_model.tflite'
 # food_model = tflite.Interpreter(model_path=model_path)
+########################################################################
+
 
 @app.route('/')
 def hello():

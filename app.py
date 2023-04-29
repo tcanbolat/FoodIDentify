@@ -30,7 +30,7 @@ def hello():
 def predict_image():
     if request.method == 'POST':
         f = request.files['file']
-        image = f.read()
+        image = BytesIO(f.read())
 
         if image:
 

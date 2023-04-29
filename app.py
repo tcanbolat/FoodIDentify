@@ -2,11 +2,13 @@ from common.common import food_list, get_latest_file
 from db.create_db import setup_db
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
-from keras.backend import clear_session
-from keras.models import load_model
+from keras.backend import clear_session  # REMOVE IMPORT IF USING tflite_runtime
+from keras.models import load_model  # REMOVE IMPORT IF USING tflite_runtime
 import os
 from predict import predict_class
 import sqlite3
+# import tflite_runtime.interpreter as tflite  # ADD IMPORT IF USING tflite_runtime
+
 
 
 app = Flask(__name__)
@@ -16,6 +18,13 @@ app.config.update(
 
 file = get_latest_file('model', 'model')
 food_model = load_model(file)
+
+### LOAD A TFLITE MODEL TO BE USED WITH tflite_runtime package
+### Pip install tflite_runtime
+### DOES_NOT_WORK WITH PYTHON 3.11 OR 3.10 - USE PYTHON 3.9 OR 3.6
+
+# model_path = 'model/food_model.tflite'
+# food_model = tflite.Interpreter(model_path=model_path)
 
 @app.route('/')
 def hello():
@@ -88,7 +97,7 @@ def submit_vote():
 if not os.path.exists('db/votes.db'):
     setup_db()
 
-clear_session()
+clear_session()  # REMOVE STATMENT IF USING tflite_runtime
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))

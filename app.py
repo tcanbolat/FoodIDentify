@@ -4,7 +4,6 @@ from db.create_db import setup_db
 from db.vote import cast_vote
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
-from keras.models import load_model  # REMOVE IMPORT IF USING tflite_runtime
 import os
 from predict import predict_class
 import tflite_runtime.interpreter as tflite

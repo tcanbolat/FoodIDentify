@@ -122,8 +122,13 @@
                   </h3>
                 </div>
                 <div class="col-sm-12">
-                  <button @click="reset" class="btn btn-primary">Restart?</button>
+                  <p class="mb-0">Correct?</p>
+                  <i @click="!voteCasted && vote('correct')" class="fa-solid fa-thumbs-up fa-3x m-4 vote-icon" style="color: green;"></i>
+                  <i @click="!voteCasted && vote('incorrect')" class="fa-solid fa-thumbs-down fa-3x m-4 vote-icon" style="color: red;"></i>
                 </div>
+                <!-- <div class="col-sm-12">
+                  <button @click="reset" class="btn btn-primary">Restart?</button>
+                </div> -->
               </div>
             </Transition>
             <div v-if="loading" class="col-sm-12">

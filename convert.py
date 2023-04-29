@@ -13,6 +13,6 @@ def convert_to_tflite(model_path, tflite_path):
         f.write(tflite_model)
 
 model_path = 'path/to/my_model.h5'
-tflite_path = 'path/to/my_model.tflite'
+tflite_path = 'path/to/my_model.tflite' #path you want to .tflite file to be once converted
 
 convert_to_tflite(model_path, tflite_path)

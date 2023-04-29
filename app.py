@@ -1,22 +1,28 @@
 from common.common import food_list, get_latest_file
+from config import config
 from db.create_db import setup_db
+from db.vote import cast_vote
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
-# from keras.backend import clear_session
-# from keras.models import load_model
+from keras.models import load_model  # REMOVE IMPORT IF USING tflite_runtime
 import os
 from predict import predict_class
-import sqlite3
 import tflite_runtime.interpreter as tflite
 
+model_path = 'model/food_model.tflite'
+food_model = tflite.Interpreter(model_path=model_path)
+food_model.allocate_tensors()
 
-app = Flask(__name__)
-app.config.update(
-    TEMPLATES_AUTO_RELOAD=True
-)
+food_list.sort() # Sort food_llist once instead of each prediction
 
-# file = get_latest_file('model', 'model')
-# food_model = load_model(file)
+def create_app():
+    app = Flask(__name__)
+    env = os.environ.get('FLASK_ENV', 'default')
+    app.config.from_object(config[env])
+
+    return app
+
+app = create_app()
 
 model_path = 'model/food_model.tflite'
 food_model = tflite.Interpreter(model_path=model_path)
@@ -38,62 +44,31 @@ def predict_image():
 
         if image:
 
-            predicted_obj = predict_class(food_model, image)
+            predicted_obj = predict_class(food_model, image, food_list)
 
             return {"prediction": predicted_obj}
 
 
 @app.route('/vote', methods=['POST'])
 def submit_vote():
-
     new_vote = request.get_json()
 
     if 'correct' in new_vote:
-            col_name = 'correct'
+        col_name = 'correct'
     elif 'incorrect' in new_vote:
-            col_name = 'incorrect'
+        col_name = 'incorrect'
     else:
         response = make_response({'message': 'Could not cast vote.'}, 400)
         return response
 
-    conn = sqlite3.connect('db/votes.db')
-    cursor = conn.cursor()
+    data = cast_vote(col_name)
 
-    cursor.execute("INSERT INTO Votes ({}) VALUES (?)".format(col_name),(True,))
-
-    conn.commit()
-
-    cursor.execute("SELECT COUNT(*) FROM Votes WHERE correct = 1")
-    correct_count = cursor.fetchone()[0]
-
-    cursor.execute("SELECT COUNT(*) FROM Votes WHERE incorrect = 1")
-    incorrect_count = cursor.fetchone()[0]
-
-    conn.close()
-
-    total_count = correct_count + incorrect_count
-
-    if total_count == 0:
-        accuracy = 'N/A'
-    else:
-         accuracy = (correct_count / total_count) * 100
-         accuracy = '{:.0f}%'.format(accuracy)
-
-    data = {
-        'correct_count': correct_count,
-        'incorrect_count': incorrect_count,
-        'total_count': total_count,
-        'accuracy': accuracy
-    }
-
-    return make_response({'message': 'New vote submitted successfully', 'result': data}, 201)
+    return make_response({'message': 'New vote submitted successfully!', 'result': data}, 201)
 
 
 if not os.path.exists('db/votes.db'):
     setup_db()
 
-# clear_session()
-
 if __name__ == '__main__':
-  port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port=port, debug=True)
+    if os.environ.get('FLASK_ENV') != 'production':
+        app.run(host='0.0.0.0', port=5000, debug=True)

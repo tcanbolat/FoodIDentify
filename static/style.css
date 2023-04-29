@@ -25,6 +25,13 @@ body {
   cursor: pointer;
 }
 
+#food_list_container {
+  overflow-x: scroll;
+  flex-flow: wrap;
+  display: flex;
+  max-height: 40vh;
+}
+
 /* Vue <Transition name="fade"> element effects  */
 .fade-enter-active,
 .fade-leave-active {

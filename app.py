@@ -84,8 +84,8 @@ def submit_vote():
     return make_response({'message': 'New vote submitted successfully', 'result': data}, 201)
 
 
-
-setup_db()
+if not os.path.exists('db/votes.db'):
+    setup_db()
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))

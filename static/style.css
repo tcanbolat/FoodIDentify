@@ -22,6 +22,7 @@ body {
   border: 1px solid #80808021;
   padding: 1rem;
   border-radius: 2rem;
+  cursor: pointer;
 }
 
 /* Vue <Transition name="fade"> element effects  */

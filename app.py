@@ -1,25 +1,16 @@
 from common.common import food_list, get_latest_file
-from db import create_db, vote
+from config import config
+from db.create_db import setup_db
+from db.vote import cast_vote
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
-from keras.backend import clear_session  # REMOVE IMPORT IF USING tflite_runtime
 from keras.models import load_model  # REMOVE IMPORT IF USING tflite_runtime
 import os
 from predict import predict_class
 
-
-
-app = Flask(__name__)
-app.config.update(
-    TEMPLATES_AUTO_RELOAD=True
-)
-
+########################################################################
 file = get_latest_file('model', 'model')  # REMOVE STATMENT IF USING tflite_runtime
 food_model = load_model(file)  # REMOVE STATMENT IF USING tflite_runtime
-
-food_list.sort() # Sort food_llist once instead of each prediction
-
-
 ########################################################################
 ### LOAD A TFLITE MODEL TO BE USED WITH tflite_runtime package
 ### Pip install tflite_runtime
@@ -31,6 +22,18 @@ food_list.sort() # Sort food_llist once instead of each prediction
 # food_model.allocate_tensors()
 ########################################################################
 
+food_list.sort() # Sort food_llist once instead of each prediction
+
+
+
+def create_app():
+    app = Flask(__name__)
+    env = os.environ.get('FLASK_ENV', 'default')
+    app.config.from_object(config[env])
+
+    return app
+
+app = create_app()
 
 @app.route('/')
 def hello():
@@ -66,16 +69,14 @@ def submit_vote():
         response = make_response({'message': 'Could not cast vote.'}, 400)
         return response
 
-    data = vote.submit_vote(col_name)
+    data = cast_vote(col_name)
 
     return make_response({'message': 'New vote submitted successfully!', 'result': data}, 201)
 
 
 if not os.path.exists('db/votes.db'):
-    create_db.setup_db()
-
-clear_session()  # REMOVE STATMENT IF USING tflite_runtime
+    setup_db()
 
 if __name__ == '__main__':
-  port = int(os.environ.get('PORT', 5000))
-  app.run(host='0.0.0.0', port=port, debug=True)
+    if os.environ.get('FLASK_ENV') != 'production':
+        app.run(host='0.0.0.0', port=5000, debug=True)

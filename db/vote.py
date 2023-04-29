@@ -1,6 +1,6 @@
 import sqlite3
 
-def submit_vote(col_name):
+def cast_vote(col_name):
     conn = sqlite3.connect('db/votes.db')
     cursor = conn.cursor()
 

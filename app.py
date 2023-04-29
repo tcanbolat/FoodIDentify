@@ -14,6 +14,9 @@ app.config.update(
     TEMPLATES_AUTO_RELOAD=True
 )
 
+file = get_latest_file('model', 'model')
+food_model = load_model(file)
+
 @app.route('/')
 def hello():
 
@@ -30,9 +33,6 @@ def predict_image():
         image = BytesIO(f.read())
 
         if image:
-
-            file = get_latest_file('model', 'model')
-            food_model = load_model(file)
 
             predicted_obj = predict_class(food_model, image)
 

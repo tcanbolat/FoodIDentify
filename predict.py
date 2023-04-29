@@ -3,6 +3,8 @@ from PIL import Image
 
 def predict_class(interpreter, image_bytes, food_list):
 
+    interpreter.allocate_tensors()
+
     # Get input and output tensors
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()

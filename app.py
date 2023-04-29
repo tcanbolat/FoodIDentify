@@ -2,6 +2,7 @@ from common.common import food_list, get_latest_file
 from db.create_db import setup_db
 from flask import Flask, render_template, request, make_response
 from io import BytesIO
+from keras.backend import clear_session
 from keras.models import load_model
 import os
 from predict import predict_class
@@ -12,6 +13,9 @@ app = Flask(__name__)
 app.config.update(
     TEMPLATES_AUTO_RELOAD=True
 )
+
+file = get_latest_file('model', 'model')
+food_model = load_model(file)
 
 @app.route('/')
 def hello():
@@ -29,9 +33,6 @@ def predict_image():
         image = BytesIO(f.read())
 
         if image:
-
-            file = get_latest_file('model', 'model')
-            food_model = load_model(file)
 
             predicted_obj = predict_class(food_model, image)
 
@@ -86,6 +87,8 @@ def submit_vote():
 
 if not os.path.exists('db/votes.db'):
     setup_db()
+
+clear_session()
 
 if __name__ == '__main__':
   port = int(os.environ.get('PORT', 5000))

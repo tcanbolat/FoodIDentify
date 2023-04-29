@@ -68,7 +68,7 @@ def submit_vote():
 
     data = vote.submit_vote(col_name)
 
-    return make_response({'message': 'New vote submitted successfully', 'result': data}, 201)
+    return make_response({'message': 'New vote submitted successfully!', 'result': data}, 201)
 
 
 if not os.path.exists('db/votes.db'):

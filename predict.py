@@ -59,6 +59,6 @@ def predict_class(image_bytes):
     percentage = "{:.0%}".format(output_data[0][pred_index])
 
     # Clean up
-    interpreter.close()
+    # interpreter.close()
 
     return {"prediction": pred_value, "confidence": percentage}

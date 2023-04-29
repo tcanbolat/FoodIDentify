@@ -18,6 +18,8 @@ app.config.update(
 file = get_latest_file('model', 'model')  # REMOVE STATMENT IF USING tflite_runtime
 food_model = load_model(file)  # REMOVE STATMENT IF USING tflite_runtime
 
+food_list.sort() # Sort food_llist once instead of each prediction
+
 
 ########################################################################
 ### LOAD A TFLITE MODEL TO BE USED WITH tflite_runtime package
@@ -47,7 +49,7 @@ def predict_image():
 
         if image:
 
-            predicted_obj = predict_class(food_model, image)
+            predicted_obj = predict_class(food_model, image, food_list)
 
             return {"prediction": predicted_obj}
 

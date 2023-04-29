@@ -1,23 +1,19 @@
-from common.common import food_list
 from keras.backend import clear_session
 from keras.utils import load_img, img_to_array
+import tensorflow as tf
 
-import numpy as np
-
-def predict_class(model, image):
+def predict_class(model, image, food_list):
     img = load_img(image, target_size=(224, 224))
     img = img_to_array(img)
-    img = np.expand_dims(img, axis=0)
-    img /= 235.
+    img = tf.keras.applications.mobilenet_v2.preprocess_input(img)
 
-    pred = model.predict(img)
-    index = np.argmax(pred)
-    index_value = np.max(pred)
+    pred = model.predict(tf.expand_dims(img, axis=0), batch_size=1)
+    index = tf.argmax(pred, axis=-1).numpy()[0]
+    index_value = pred[0][index]
 
-    food_list.sort()
     pred_value = food_list[index]
 
-    percentage = "{:.0%}".format(index_value)
+    percentage = f"{index_value:.0%}"
 
     clear_session()
 

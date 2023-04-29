@@ -7,6 +7,7 @@ from io import BytesIO
 import os
 from predict import predict_class
 import sqlite3
+import tflite_runtime.interpreter as tflite
 
 
 app = Flask(__name__)
@@ -16,6 +17,9 @@ app.config.update(
 
 # file = get_latest_file('model', 'model')
 # food_model = load_model(file)
+
+model_path = 'model/food_model.tflite'
+food_model = tflite.Interpreter(model_path=model_path)
 
 @app.route('/')
 def hello():
@@ -34,7 +38,7 @@ def predict_image():
 
         if image:
 
-            predicted_obj = predict_class(image)
+            predicted_obj = predict_class(food_model, image)
 
             return {"prediction": predicted_obj}
 

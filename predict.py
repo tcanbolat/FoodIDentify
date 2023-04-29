@@ -25,14 +25,11 @@
 
 import numpy as np
 from PIL import Image
-import tflite_runtime.interpreter as tflite
 
 from common.common import food_list
 
-def predict_class(image_bytes):
-    model_path = 'model/food_model.tflite'
-    # Load TFLite model
-    interpreter = tflite.Interpreter(model_path=model_path)
+def predict_class(interpreter, image_bytes):
+
     interpreter.allocate_tensors()
 
     # Get input and output tensors

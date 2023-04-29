@@ -21,7 +21,7 @@ test_gen = data_gen.flow_from_directory('meta/training-data/test', target_size=i
 
 
 try:
-  model = load_model("model/model/food_model.h5")
+  model = load_model("model/food_model.h5")
 except:
   input_shape = [224,224,3]
 

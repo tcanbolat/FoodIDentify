@@ -1,0 +1,43 @@
+<Teleport to="body">
+  <Transition name="modal">
+    <div v-if="showModal" class="modal-mask">
+      <div class="modal-container">
+        <div class="card border-dark" id="modal-card">
+          <div class="card-header">
+            <i class="fa-solid fa-square-poll-vertical" style="color: rgba(210,119,227)"></i>
+            ${ votesData.error ? 'Error' : votesData.message }
+          </div>
+          <div class="card-body text-dark">
+            <h5 class="card-title mb-3" :class="votesData.error && 'text-danger'">
+              ${ votesData.error ? 'Error' : 'Results' }
+            </h5>
+            <div v-if="!votesData.error" class="table-responsive mb-2">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Total Votes</td>
+                    <td><strong>${ votesData.total_count }</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Correct</td>
+                    <td><strong>${ votesData.correct_count }</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Incorrect</td>
+                    <td><strong>${ votesData.incorrect_count }</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Modal Accuracy</td>
+                    <td><strong>${ votesData.accuracy }</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p v-if="votesData.error"> ${ votesData.error }</p>
+              <button @click="reset" class="btn btn-primary mt-2">Restart?</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Transition>
+</Teleport>

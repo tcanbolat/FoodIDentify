@@ -8,12 +8,15 @@ const app = createApp({
       PredictedResult: {},
       loading: false,
       error: false,
+      voteCasted: false,
+      showModal: false,
       step: {
         welcome: true,
         chooseFood: false,
         uploadFood: false,
         predictFood: false
-      }
+      },
+      votesData: {}
     }
   },
   methods: {
@@ -58,7 +61,25 @@ const app = createApp({
       .catch(err => {
         self.loading = false
         self.error = true
-        console.log(err)
+      })
+    },
+    vote(result) {
+      this.voteCasted = true
+
+      const data = {}
+      data[result] = true
+
+      const self = this
+
+      axios.post(window.location.href + '/vote', data)
+      .then(({ data }) => {
+        self.votesData = data.result
+        self.votesData.message = data.message
+        self.showModal = true
+      })
+      .catch((err) => {
+        self.showModal = true
+        self.votesData = {error: err.response.data.message || 'Error casting vote.'}
       })
     },
     reset () {
@@ -68,6 +89,9 @@ const app = createApp({
       this.loading = false
       this.step.predictFood = false
       this.step.welcome = true
+      this.showModal = false
+      this.votesData = {}
+      this.voteCasted = false
     }
   },
 })

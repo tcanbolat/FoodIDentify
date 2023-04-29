@@ -34,10 +34,9 @@
       <div class="card-body text-dark">
         <h5 class="card-title mb-3">Click on a food name</h5>
         <p class="card-text">You will be redirected to Google images. Choose an image and save to your device.</p>
-        <p class="card-text text-danger">.png or .jpg images only!</p>
-        {% for i in range(0, food_list|length, 10) %}
-        <div class="col-12 m-2">
-          {% for food in food_list[i:i+10] %}
+        <p class="card-text text-danger mb-4">.png or .jpg images only!</p>
+        <div id="food_list_container">
+          {% for food in food_list %}
           <span class="m-2">
             <a href="https://www.google.com/search?q={{ food }}&tbm=isch" target="_blank" rel="noopener noreferrer"
               class="text-decoration-none">
@@ -45,9 +44,9 @@
             </a>
           </span>
           {% endfor %}
+
         </div>
-        {% endfor %}
-        <p class="card-text"><strong>Once you have an image saved press continue.</strong></p>
+        <p class="card-text mt-4"><strong>Once you have an image saved press continue.</strong></p>
         <button @click="updateStep('chooseFood','uploadFood')" class="btn btn-primary">Continue To Next Step</button>
       </div>
     </div>

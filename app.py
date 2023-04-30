@@ -19,7 +19,6 @@ food_model = load_model(file)  # REMOVE STATMENT IF USING tflite_runtime
 # import tflite_runtime.interpreter as tflite
 # model_path = 'model/food_model.tflite'
 # food_model = tflite.Interpreter(model_path=model_path)
-# food_model.allocate_tensors()
 ########################################################################
 
 food_list.sort() # Sort food_llist once instead of each prediction

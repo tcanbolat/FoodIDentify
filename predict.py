@@ -27,8 +27,6 @@ def predict_class(model, image, food_list):
 # import numpy as np
 # from PIL import Image
 
-# # from common.common import food_list
-
 # def predict_class(interpreter, image_bytes, food_list):
 
 #     interpreter.allocate_tensors()
